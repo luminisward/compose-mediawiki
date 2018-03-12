@@ -1,0 +1,47 @@
+version: '3'
+services:
+  phpfpm:
+    build: ./php
+    volumes:
+      - "./php/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/www.conf"
+      - "./mediawiki:/var/www/html"
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - "./nginx/conf.d:/etc/nginx/conf.d"
+      - "./mediawiki:/var/www/html"
+
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - "./mysql:/var/lib/mysql"
+    environment:
+      - MYSQL_ROOT_PASSWORD=MjqVXTUhDgp4xsakiwT5
+
+  parsoid:
+    image: rlewkowicz/parsoid:latest
+    # ports:
+    #   - "8000:8000"
+    volumes:
+      - "./parsoid/config.yaml:/usr/local/lib/node_modules/parsoid/config.yaml"
+    hostname: parsoid
+      
+  restbase:
+    image: wikitolearn/restbase
+    ports:
+      - "7231:7231"
+    volumes:
+      - "./restbase/config.yaml:/opt/config.yaml:ro"
+
+  myadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8080:80"
+    environment:
+      - PMA_HOST=mysql
+
+  memcached:
+    image: memcached
