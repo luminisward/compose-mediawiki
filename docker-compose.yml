@@ -4,8 +4,11 @@ services:
     build: ./php
     volumes:
       - "./php/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/www.conf"
+      # - "./php/php.ini:/usr/local/etc/php/php.ini"
       - "./mediawiki:/var/www/html"
-
+    # Xdebug
+    # extra_hosts:
+    #   docker_host: 192.168.66.10 
   nginx:
     image: nginx:latest
     ports:
