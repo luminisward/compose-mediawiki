@@ -1,6 +1,4 @@
 FROM php:7.0-fpm
-COPY php-fpm.d/www.conf /usr/local/etc/php-fpm.d/www.conf
-COPY php.ini /usr/local/etc/php/php.ini
 RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
 RUN apt-get update && apt-get install -y \
     git \
